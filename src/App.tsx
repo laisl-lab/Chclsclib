@@ -92,12 +92,12 @@ export default function LoginPage() {
           </div>
         </div>
         
-        {/* 2. 修正校名錯字：喇沙書院 */}
+        {/* 2. 修正校名：中華聖潔會靈風中學 */}
         <h2 className="mt-4 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
-          喇沙書院圖書館管理系統
+          中華聖潔會靈風中學圖書館管理系統
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
-          La Salle College Library Record System
+          China Holiness Church Living Spirit College Library System
         </p>
       </div>
 
@@ -137,7 +137,7 @@ export default function LoginPage() {
                   type="email"
                   required
                   className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl focus:ring-blue-500 focus:border-blue-500 text-sm text-slate-900 placeholder-slate-400"
-                  placeholder="user@lsc.edu.hk"
+                  placeholder="user@chclsc.edu.hk"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -234,7 +234,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* 3. 已完全移除「快速體驗與角色權限測試」的卡片區塊 */}
+          {/* 3. 已完全移除「快速體驗與角色權限測試」卡片區塊 */}
 
         </div>
       </div>
