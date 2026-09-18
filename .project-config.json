@@ -1,0 +1,34 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [],
+  "dev_command": "pnpm run dev",
+  "env_vars": {},
+  "experiments": null,
+  "git_remote": {
+    "repo_url": "https://7f0548f6b28a1758d9bf7be630d36cb4.artifacts.cloudflare.net/git/prod/9ksJW6fdaVGXv3Bj3HCxiz.git",
+    "expiration": "2026-09-18T08:54:41.405Z",
+    "token": "art_v2_x_8c398ba22bb455e08a5576090a70f11281481555?expires=1789721681",
+    "backend": "GIT_BACKEND_ARTIFACTS"
+  },
+  "name": "library-record-system",
+  "path": "/home/ubuntu/library-record-system",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "UhbaKhpNy5VMQqeHuwKFAc",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "3fzEwTkZQ4zvtxn2iCQFpo",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "Sze Lam Lai",
+    "OWNER_OPEN_ID": "itETEJLkWqbPLPCrXANHiS",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "55bf0bb3-44d0-476a-b4ef-3149529b21de",
+    "VITE_APP_ID": "9ksJW6fdaVGXv3Bj3HCxiz",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "學校圖書館管理與統計系統",
+    "VITE_FRONTEND_FORGE_API_KEY": "hYVfHJXGarQMwG7bmNvBoE",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-static",
+  "test_command": "pnpm test"
+}

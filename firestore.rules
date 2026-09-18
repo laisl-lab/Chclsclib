@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 判斷是否已登入
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // 判斷是否為預設管理員或在 admins 集合中
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == "laisl@lsc.edu.hk" ||
+        exists(/databases/$(database)/documents/whitelist_teachers/$(request.auth.token.email)) &&
+        get(/databases/$(database)/documents/whitelist_teachers/$(request.auth.token.email)).data.role == "Admin"
+      );
+    }
+    
+    // 判斷是否為合格教職員（Admin 或 Teacher）
+    function isStaff() {
+      return isAuthenticated() && (
+        request.auth.token.email == "laisl@lsc.edu.hk" ||
+        exists(/databases/$(database)/documents/whitelist_teachers/$(request.auth.token.email))
+      );
+    }
+
+    // 教職員白名單：只有 Admin 能寫入，已授權教職員可讀取
+    match /whitelist_teachers/{email} {
+      // 讓登入者只可在登入時讀取自己的白名單紀錄；Admin 可管理全份名單。
+      allow get: if isAuthenticated() && (request.auth.token.email == email || isAdmin());
+      allow list: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // 禮物經手人員：已授權教職員可讀取，Admin 可寫入
+    match /reward_handlers/{handlerId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    // 學生資料庫：所有授權教職員可讀取，Admin 可建立/修改/升班
+    match /students/{studentId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    // 閱讀出奇蛋紀錄：只有 Admin 可寫入與管理，教職員可檢視個人或查詢總覽
+    match /reading_egg_logs/{logId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+
+    // 早讀欠帶書紀錄：授權教職員 (Teacher / Admin) 皆可登記與發放藍紙
+    match /overdue_books/{recordId} {
+      allow read: if isStaff();
+      allow create, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // 藍紙發放審計日誌：永久留存，授權教職員可新增發放紀錄，不可任意篡改刪除
+    match /blue_slips_audit/{auditId} {
+      allow read: if isStaff();
+      allow create: if isStaff();
+      allow update, delete: if isAdmin();
+    }
+
+    // 系統年度封存檔案與中繼資料：僅限 Admin 存取
+    match /academic_archives/{year} {
+      allow read, write: if isAdmin();
+    }
+
+    // 系統全域設定
+    match /system_config/{configId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+  }
+}
