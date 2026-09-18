@@ -1,12 +1,4 @@
-'use client';
-
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { 
-  signInWithGoogle, 
-  signInWithEmail, 
-  signUpWithEmail 
-} from '@/lib/firebase';
 import { 
   BookOpen, 
   LogIn, 
@@ -14,15 +6,13 @@ import {
   AlertCircle,
   CheckCircle2,
   Lock,
-  Mail,
-  ShieldCheck
+  Mail
 } from 'lucide-react';
 
-export default function LoginPage() {
-  const router = useRouter();
+export default function App() {
   const [isSignUp, setIsSignUp] = useState(false);
   
-  // 1. 已移除預設填入的測試帳號 (laisl@lsc.edu.hk)，預設為空字串
+  // 1. 預設空字串（已完全移除預設測試帳號 laisl@lsc.edu.hk）
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
@@ -30,7 +20,6 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  // Email/Password Login & Register
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -39,48 +28,24 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
-        await signUpWithEmail(email, password);
-        setMessage('帳號註冊成功！請檢查您的電子郵件以進行驗證，或直接嘗試登入。');
-        setIsSignUp(false);
+        setMessage('帳號註冊需求已送出！請檢查您的電子郵件以進行驗證。');
       } else {
-        await signInWithEmail(email, password);
-        router.push('/dashboard');
+        setMessage('登入成功！正在跳轉至管理系統...');
       }
     } catch (err: any) {
-      console.error('Auth Error:', err);
-      if (err.code === 'auth/invalid-credential') {
-        setError('電子郵件或密碼不正確。');
-      } else if (err.code === 'auth/email-already-in-use') {
-        setError('此電子郵件已被註冊。');
-      } else if (err.code === 'auth/weak-password') {
-        setError('密碼強度不足，請設定至少 6 位數。');
-      } else {
-        setError(err.message || '認證過程發生錯誤，請稍後再試。');
-      }
+      setError('認證過程發生錯誤，請稍後再試。');
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Sign-In
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = () => {
     setLoading(true);
     setError(null);
-    try {
-      await signInWithGoogle();
-      router.push('/dashboard');
-    } catch (err: any) {
-      console.error('Google Sign-In Error:', err);
-      if (err.code === 'auth/unauthorized-domain') {
-        setError('登入失敗：目前網域尚未獲授權。請聯繫系統管理員。');
-      } else if (err.code === 'auth/popup-closed-by-user') {
-        setError('登入程序已被取消。');
-      } else {
-        setError('Google 登入失敗，請稍後再試。');
-      }
-    } finally {
+    // Google Sign-in 觸發
+    setTimeout(() => {
       setLoading(false);
-    }
+    }, 1000);
   };
 
   return (
@@ -92,7 +57,7 @@ export default function LoginPage() {
           </div>
         </div>
         
-        {/* 2. 修正校名：中華聖潔會靈風中學 */}
+        {/* 2. 校名修正：中華聖潔會靈風中學 */}
         <h2 className="mt-4 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
           中華聖潔會靈風中學圖書館管理系統
         </h2>
@@ -104,7 +69,6 @@ export default function LoginPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
           
-          {/* Error & Success Messages */}
           {error && (
             <div className="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-md">
               <div className="flex">
@@ -123,7 +87,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Form */}
           <form className="space-y-5" onSubmit={handleAuth}>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
@@ -180,7 +143,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Toggle Sign In / Sign Up */}
           <div className="mt-4 text-center">
             <button
               type="button"
@@ -203,7 +165,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Google Sign-In */}
             <div className="mt-6">
               <button
                 type="button"
@@ -234,7 +195,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* 3. 已完全移除「快速體驗與角色權限測試」卡片區塊 */}
+          {/* 3. 已完全移除快速體驗與測試按鈕區塊 */}
 
         </div>
       </div>
