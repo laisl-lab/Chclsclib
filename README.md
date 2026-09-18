@@ -102,3 +102,4 @@ Firebase Hosting 的標準流程會將靜態內容部署至專案的 `web.app` �
 [1]: https://firebase.google.com/docs/auth/web/google-signin "Authenticate Using Google with JavaScript | Firebase"
 [2]: https://firebase.google.com/docs/hosting/quickstart "Get started with Firebase Hosting"
 [3]: https://firebase.google.com/docs/firestore/security/get-started "Get started with Cloud Firestore Security Rules"
+ 
